@@ -8,17 +8,21 @@ app.secret_key = "this is a key to the city"
 def index():
     return render_template('index.html')
 
-@app.route('/survey', methods=['POST'])
+@app.route('/process', methods=['POST'])
 def survey_info():
     session['username'] = request.form['name']
     session['location'] = request.form['dojoLocation']
-    session[''] = request.form['']
-    session[''] = request.form['']
-    return redirect('/results')
+    session['language'] = request.form['favLanguage']
+    session['comments'] = request.form['comment']
+    return redirect('/result')
 
-@app.route('/results')
+@app.route('/result')
 def display_results():
-    return render_template('results.html')
+    return render_template('results.html', name_on_template=session['username'], location_on_template=session['location'], language_on_template=session['language'], comment_on_template=session['comments'])
+
+@app.route('/home')
+def home():
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True)
